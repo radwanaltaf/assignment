@@ -13,6 +13,5 @@
     ],
     "editor.codeActionsOnSave": {
         "source.fixAll": true
-    },
-    "editor.codeActionsOnSaveTimeout": 4000
+    }
 }
