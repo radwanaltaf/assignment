@@ -7,6 +7,14 @@
       {
         "avoidEscape": true
       }
+    ],
+    "jsx-quotes": [
+      2,
+      "prefer-single"
+    ],
+    "semi": [
+      2,
+      "always"
     ]
   }
 }

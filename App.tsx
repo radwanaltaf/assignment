@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import LoginScreen from './src/screens/LoginScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -25,7 +26,8 @@ function Section({ children, title }: SectionProps): JSX.Element {
           {
             color: isDarkMode ? Colors.white : Colors.black,
           },
-        ]}>
+        ]}
+      >
         {title}
       </Text>
       <Text
@@ -34,7 +36,8 @@ function Section({ children, title }: SectionProps): JSX.Element {
           {
             color: isDarkMode ? Colors.light : Colors.dark,
           },
-        ]}>
+        ]}
+      >
         {children}
       </Text>
     </View>
@@ -46,6 +49,7 @@ function App(): JSX.Element {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
 
   return (
@@ -54,6 +58,7 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      <LoginScreen />
     </SafeAreaView>
   );
 }
