@@ -2,11 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import Post from './post';
 
-interface HomeFeedProps {
-  posts: PostProps[];
-}
-
-const HomeFeed: React.FC<HomeFeedProps> = ({ posts }) => {
+const HomeFeed = ({ posts }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {posts.map((post, index) => (

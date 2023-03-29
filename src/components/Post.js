@@ -1,16 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-interface PostProps {
-  title: string;
-  description: string;
-  tags: string[];
-  favoritesCount: number;
-  authorImage: string;
-  authorUsername: string;
-}
-
-const Post: React.FC<PostProps> = ({
+const Post = ({
   title,
   description,
   tags,

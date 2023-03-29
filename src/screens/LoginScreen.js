@@ -8,11 +8,7 @@ import {
 } from 'react-native';
 import { login } from '../api/login';
 
-interface LoginProps {
-  onLoginSuccess: (userData: any) => void;
-}
-
-const LoginScreen: React.FC<LoginProps> = ({ onLoginSuccess }) => {
+const LoginScreen = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
