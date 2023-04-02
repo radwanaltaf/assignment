@@ -1,23 +1,44 @@
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import Post from './post';
+import React, { useState, useEffect } from 'react';
+import { FlatList, View, Text } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchArticles } from '../store/actions/articlesActions';
+import Post from './Post';
 
-const HomeFeed = ({ posts }) => {
+const HomeFeed = () => {
+  const [page, setPage] = useState(0);
+  const dispatch = useDispatch();
+  const { articles, isLoading, error } = useSelector(state => state.articles);
+
+  useEffect(() => {
+    dispatch(fetchArticles(page));
+  }, [page]);
+
+  const loadMoreArticles = () => {
+    if (!isLoading) {
+      setPage(prevPage => prevPage + 1);
+    }
+  };
+
+  const renderItem = ({ item, index }) => <Post {...item} />;
+
+  if (error) {
+    return (
+      <View>
+        <Text>Error: {error}</Text>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {posts.map((post, index) => (
-        <Post key={index} {...post} />
-      ))}
-    </ScrollView>
+    <FlatList
+      data={articles}
+      renderItem={renderItem}
+      keyExtractor={item => item.slug}
+      onEndReached={loadMoreArticles}
+      onEndReachedThreshold={0.5}
+      initialNumToRender={10}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 15,
-    backgroundColor: '#f5f5f5',
-  },
-});
 
 export default HomeFeed;

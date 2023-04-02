@@ -1,19 +1,12 @@
-// src/navigation/AppNavigator.tsx
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../components/Login';
 import HomeFeed from '../components/HomeFeed';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName='Login'>
-      <Stack.Screen
-        name='Login'
-        component={Login}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator initialRouteName='HomeFeed'>
       <Stack.Screen
         name='HomeFeed'
         component={HomeFeed}

@@ -1,23 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const Post = ({
-  title,
-  description,
-  tags,
-  favoritesCount,
-  authorImage,
-  authorUsername,
-}) => {
+const Post = ({ title, description, tagList, favoritesCount, author }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image style={styles.authorImage} source={{ uri: authorImage }} />
-        <Text style={styles.authorUsername}>{authorUsername}</Text>
+        <Image style={styles.authorImage} source={{ uri: author.image }} />
+        <Text style={styles.authorUsername}>{author.username}</Text>
       </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <Text style={styles.tags}>{tags.join(', ')}</Text>
+      <Text style={styles.tags}>{tagList.join(', ')}</Text>
       <Text style={styles.favoritesCount}>{favoritesCount} favorites</Text>
     </View>
   );

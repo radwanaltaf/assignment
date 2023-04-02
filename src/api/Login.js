@@ -4,7 +4,8 @@ import { Alert } from 'react-native';
 
 const baseURL = Config.API_URL;
 
-export const login = async (email: string, password: string) => {
+export const Login = async (email, password) => {
+  console.log(Config.API_URL);
   try {
     const response = await axios.post(`${baseURL}/users/login`, {
       user: { email, password },

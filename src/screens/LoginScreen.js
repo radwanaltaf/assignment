@@ -6,15 +6,15 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import { login } from '../api/login';
+import { Login } from '../api/Login';
 
 const LoginScreen = ({ onLoginSuccess }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('dasdasd@gmail.com');
+  const [password, setPassword] = useState('dsfafsdfsd');
 
   const handleLogin = async () => {
     try {
-      const userData = await login(email, password);
+      const userData = await Login(email, password);
       onLoginSuccess(userData);
     } catch (error) {
       console.error(error);
