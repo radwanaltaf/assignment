@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '500',
     marginTop: 10,
     marginBottom: 5,
   },

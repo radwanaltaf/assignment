@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text } from 'react-native';
+import {
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from '../store/actions/articlesActions';
 import Post from './Post';
@@ -7,10 +13,15 @@ import Post from './Post';
 const HomeFeed = () => {
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
-  const { articles, isLoading, error } = useSelector(state => state.articles);
+  const { articles, articlesCount, isLoading, error } = useSelector(
+    state => state.articles,
+  );
 
   useEffect(() => {
-    dispatch(fetchArticles(page));
+    dispatch(fetchArticles(page, articles.length));
+    console.log('page', page);
+    console.log('articles.length', articles);
+    console.log('artcCount', articlesCount);
   }, [page]);
 
   const loadMoreArticles = () => {
@@ -23,22 +34,49 @@ const HomeFeed = () => {
 
   if (error) {
     return (
-      <View>
-        <Text>Error: {error}</Text>
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error: {error}</Text>
+      </View>
+    );
+  }
+
+  if (isLoading && articles.length === 0) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator animating size='large' color='#0000ff' />
       </View>
     );
   }
 
   return (
-    <FlatList
-      data={articles}
-      renderItem={renderItem}
-      keyExtractor={item => item.slug}
-      onEndReached={loadMoreArticles}
-      onEndReachedThreshold={0.5}
-      initialNumToRender={10}
-    />
+    <View>
+      <Text style={{ padding: 10 }}>{articles.length}</Text>
+      <FlatList
+        data={articles}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => item.slug}
+        onEndReached={loadMoreArticles}
+        onEndReachedThreshold={0.5}
+        initialNumToRender={20}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+  },
+});
 
 export default HomeFeed;

@@ -1,6 +1,6 @@
 import api from '../../utils/axios';
 
-export const fetchArticles = page => async dispatch => {
+export const fetchArticles = (page, ln) => async dispatch => {
   dispatch({ type: 'FETCH_ARTICLES_REQUEST' });
 
   try {
@@ -13,7 +13,10 @@ export const fetchArticles = page => async dispatch => {
 
     dispatch({
       type: 'FETCH_ARTICLES_SUCCESS',
-      payload: response.data.articles,
+      payload: {
+        articles: response.data.articles,
+        articlesCount: response,
+      },
     });
   } catch (error) {
     dispatch({ type: 'FETCH_ARTICLES_FAILURE', error: error.message });

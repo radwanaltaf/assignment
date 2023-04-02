@@ -10,10 +10,16 @@ const articlesReducer = (state = initialState, action) => {
     case 'FETCH_ARTICLES_REQUEST':
       return { ...state, isLoading: true };
     case 'FETCH_ARTICLES_SUCCESS':
+      const uniqueArticles = action.payload.articles.filter(
+        article =>
+          !state.articles.some(
+            existingArticle => existingArticle.slug === article.slug,
+          ),
+      );
       return {
         ...state,
         isLoading: false,
-        articles: [...state.articles, ...action.payload],
+        articles: [...state.articles, ...uniqueArticles],
         articlesCount: action.payload.articlesCount,
       };
     case 'FETCH_ARTICLES_FAILURE':
