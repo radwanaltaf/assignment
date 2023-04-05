@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from '../store/actions/articlesActions';
-import Post from './Post';
+import Post from '../components/Post';
 
 const HomeFeed = () => {
   const [page, setPage] = useState(0);

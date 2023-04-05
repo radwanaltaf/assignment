@@ -1,7 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import CommentForm from './CommentForm';
+import CommentsList from './CommentsList';
 
-const Post = ({ title, description, tagList, favoritesCount, author }) => {
+const Post = ({
+  title,
+  description,
+  tagList,
+  favoritesCount,
+  author,
+  slug,
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -12,6 +21,12 @@ const Post = ({ title, description, tagList, favoritesCount, author }) => {
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.tags}>{tagList.join(', ')}</Text>
       <Text style={styles.favoritesCount}>{favoritesCount} favorites</Text>
+
+      <View style={styles.divider} />
+
+      <CommentForm slug={slug} />
+
+      <CommentsList slug={slug} />
     </View>
   );
 };
@@ -56,6 +71,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     marginTop: 5,
+    marginBottom: 5,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#ccc',
+    marginVertical: 15,
   },
 });
 

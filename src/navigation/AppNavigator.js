@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeFeed from '../components/HomeFeed';
+import HomeFeed from '../screens/HomeFeed';
 
 const Stack = createStackNavigator();
 
