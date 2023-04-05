@@ -14,8 +14,10 @@ const Main = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await AsyncStorage.getItem('user');
+      console.log('userData', user);
       if (userData) {
         dispatch(setUser(JSON.parse(userData)));
+        console.log('user', JSON.parse(userData));
       }
     };
     fetchUser();
@@ -27,9 +29,10 @@ const Main = () => {
   };
   return (
     <NavigationContainer>
+      {/* eslint-disable-next-line react-native/no-inline-styles */}
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar barStyle={'light-content'} backgroundColor={'blue'} />
-        {user !== null ? (
+        {user.user !== null ? (
           <AppNavigator />
         ) : (
           <LoginScreen onLoginSuccess={handleLoginSuccess} />

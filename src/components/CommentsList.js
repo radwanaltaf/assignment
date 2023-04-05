@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Text from '../styledComponents/CustomText';
 import api from '../utils/axios';
 
 const CommentsList = ({ slug }) => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    // const fetchComments = async () => {
-    //   try {
-    //     const response = await api.get(`/articles/${slug}/comments`);
-    //     setComments(response.data.comments);
-    //   } catch (error) {
-    //     console.error('Error fetching comments:', error);
-    //   }
-    // };
-    // fetchComments();
-  }, []);
+    const fetchComments = async () => {
+      try {
+        const response = await api.get(`/articles/${slug}/comments`);
+        setComments(response.data.comments);
+        console.log(response.data.comments);
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+    fetchComments();
+  }, [slug]);
 
   return (
     <View style={styles.container}>

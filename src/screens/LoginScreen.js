@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import Text from '../styledComponents/CustomText';
 import { Login } from '../api/Login';
 
 const LoginScreen = ({ onLoginSuccess }) => {

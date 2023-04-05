@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import Text from '../styledComponents/CustomText';
 import CommentForm from './CommentForm';
 import CommentsList from './CommentsList';
 
@@ -11,23 +13,31 @@ const Post = ({
   author,
   slug,
 }) => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate('PostDetails', { slug: slug });
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image style={styles.authorImage} source={{ uri: author.image }} />
-        <Text style={styles.authorUsername}>{author.username}</Text>
+    <TouchableOpacity onPress={handlePress}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image style={styles.authorImage} source={{ uri: author.image }} />
+          <Text style={styles.authorUsername}>{author.username}</Text>
+        </View>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.description}>{description}</Text>
+        <Text style={styles.tags}>{tagList.join(', ')}</Text>
+        <Text style={styles.favoritesCount}>{favoritesCount} favorites</Text>
+
+        <View style={styles.divider} />
+
+        <CommentForm slug={slug} />
+
+        <CommentsList slug={slug} />
       </View>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.description}>{description}</Text>
-      <Text style={styles.tags}>{tagList.join(', ')}</Text>
-      <Text style={styles.favoritesCount}>{favoritesCount} favorites</Text>
-
-      <View style={styles.divider} />
-
-      <CommentForm slug={slug} />
-
-      <CommentsList slug={slug} />
-    </View>
+    </TouchableOpacity>
   );
 };
 

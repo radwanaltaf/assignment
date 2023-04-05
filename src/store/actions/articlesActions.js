@@ -1,6 +1,6 @@
 import api from '../../utils/axios';
 
-export const fetchArticles = (page, ln) => async dispatch => {
+export const fetchArticles = page => async dispatch => {
   dispatch({ type: 'FETCH_ARTICLES_REQUEST' });
 
   try {

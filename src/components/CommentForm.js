@@ -5,9 +5,9 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Text,
 } from 'react-native';
 import { useSelector } from 'react-redux';
+import Text from '../styledComponents/CustomText';
 
 const CommentForm = ({ onSubmit, disabled }) => {
   const [body, setBody] = useState('');

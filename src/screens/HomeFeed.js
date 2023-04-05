@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {
-  FlatList,
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
+import { FlatList, View, StyleSheet, ActivityIndicator } from 'react-native';
+import Text from '../styledComponents/CustomText';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchArticles } from '../store/actions/articlesActions';
 import Post from '../components/Post';
@@ -18,11 +13,11 @@ const HomeFeed = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchArticles(page, articles.length));
-    console.log('page', page);
-    console.log('articles.length', articles);
-    console.log('artcCount', articlesCount);
-  }, [page]);
+    dispatch(fetchArticles(page));
+    // console.log('page', page);
+    // console.log('articles.length', articles);
+    // console.log('artcCount', articlesCount);
+  }, [dispatch, page]);
 
   const loadMoreArticles = () => {
     if (!isLoading) {
