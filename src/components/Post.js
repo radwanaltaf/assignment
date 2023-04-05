@@ -1,9 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Animated,
+} from 'react-native';
 import Text from '../styledComponents/CustomText';
 import CommentForm from './CommentForm';
 import CommentsList from './CommentsList';
+import { postCommentOnPost } from '../api/Posts';
+import { useSelector } from 'react-redux';
 
 const Post = ({
   title,
@@ -14,9 +22,39 @@ const Post = ({
   slug,
 }) => {
   const navigation = useNavigation();
-
+  const [showPostMessage, setShowPostMessage] = useState(true);
+  const postMessageAnim = useRef(new Animated.Value(0)).current;
+  const user = useSelector(state => state.user.user);
   const handlePress = () => {
     navigation.navigate('PostDetails', { slug: slug });
+  };
+
+  const submitComment = async body => {
+    console.log('Submitting comment', user.user.token);
+    const response = await postCommentOnPost(slug, body, user.user.token);
+    if (response.status === 200) {
+      showPostedMessage();
+    }
+    console.log(response);
+  };
+
+  const showPostedMessage = () => {
+    setShowPostMessage(true);
+    Animated.timing(postMessageAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      setTimeout(() => {
+        Animated.timing(postMessageAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start(() => {
+          setShowPostMessage(false);
+        });
+      }, 3400);
+    });
   };
 
   return (
@@ -33,9 +71,34 @@ const Post = ({
 
         <View style={styles.divider} />
 
-        <CommentForm slug={slug} />
+        <CommentForm
+          onSubmit={submitComment}
+          disabled={user ? false : true}
+          slug={slug}
+        />
 
         <CommentsList slug={slug} />
+
+        {showPostMessage && (
+          <Animated.View
+            style={[
+              styles.postMessageContainer,
+              {
+                opacity: postMessageAnim,
+                transform: [
+                  {
+                    translateY: postMessageAnim.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [50, 0],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
+            <Text style={styles.postMessage}>Posted</Text>
+          </Animated.View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -87,6 +150,20 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#ccc',
     marginVertical: 15,
+  },
+  postMessageContainer: {
+    position: 'absolute',
+    bottom: -10,
+    left: 0,
+    right: 0,
+    backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+  },
+  postMessage: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 

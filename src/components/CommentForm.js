@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import Text from '../styledComponents/CustomText';
@@ -14,6 +15,10 @@ const CommentForm = ({ onSubmit, disabled }) => {
   const user = useSelector(state => state.user);
 
   const handleSubmit = () => {
+    if (disabled) {
+      Alert.alert('You must be logged in to comment');
+      return;
+    }
     onSubmit(body);
     setBody('');
   };
@@ -36,7 +41,7 @@ const CommentForm = ({ onSubmit, disabled }) => {
       />
       <TouchableOpacity
         onPress={handleSubmit}
-        disabled={disabled}
+        disabled={body === '' ? true : false}
         style={styles.submitButton}
       >
         <View style={styles.postButtonContainer}>

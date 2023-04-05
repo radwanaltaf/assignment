@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
   authorUsername: {
     fontSize: 18,
     fontWeight: 'bold',
-    // marginLeft: 5,
   },
   authorImage: {
     width: 40,
