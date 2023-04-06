@@ -6,6 +6,7 @@ export default function Text(props) {
 
   return (
     <DefaultText
+      // eslint-disable-next-line react-native/no-inline-styles
       style={[{ fontFamily: 'Iowan Old Style' }, style]}
       {...otherProps}
     />

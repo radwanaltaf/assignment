@@ -8,9 +8,7 @@ import Post from '../components/Post';
 const HomeFeed = () => {
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
-  const { articles, articlesCount, isLoading, error } = useSelector(
-    state => state.articles,
-  );
+  const { articles, isLoading, error } = useSelector(state => state.articles);
 
   useEffect(() => {
     dispatch(fetchArticles(page));

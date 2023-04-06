@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Text from '../styledComponents/CustomText';
 import { Login } from '../api/Login';
-import { useNavigation } from '@react-navigation/native';
+
 // dasdasd@gmail.com
 // dsfafsdfsd
 const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
-  const [email, setEmail] = useState('dasdasd@gmail.com');
-  const [password, setPassword] = useState('dsfafsdfsd');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [emailValid, setEmailValid] = useState(false);
-  const navigation = useNavigation();
 
   const validateEmail = email_ => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,13 +23,12 @@ const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
   const handleLogin = async () => {
     try {
       const userData = await Login(email, password);
-      console.log(userData);
       onLoginSuccess(userData);
     } catch (error) {
       console.error(error);
     }
   };
-  console.log(emailValid);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>

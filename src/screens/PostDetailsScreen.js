@@ -23,7 +23,6 @@ const PostDetailsScreen = ({ route }) => {
 
   // Fetch post details and comments
   useEffect(() => {
-    console.log('slug', user);
     const fetchDetailsAndComments = async () => {
       const [details, comments] = await Promise.all([
         fetchPostDetails(slug),
@@ -61,13 +60,11 @@ const PostDetailsScreen = ({ route }) => {
   };
 
   const submitComment = async body => {
-    console.log('Submitting comment', user.token);
     const response = await postCommentOnPost(slug, body, user.token);
     if (response.status === 200) {
       showPostedMessage();
       const newComment = response.data.comment;
       setCommentsG(prevComms => [...prevComms, newComment]);
-      console.log(newComment);
     } else {
       console.log('Error submitting comment:', response);
     }

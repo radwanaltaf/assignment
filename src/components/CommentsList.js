@@ -3,7 +3,6 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Text from '../styledComponents/CustomText';
 
 const CommentsList = ({ commentsList, user, handleDeleteComment }) => {
-  console.log(user);
   return (
     <View style={styles.container}>
       {commentsList.map((comment, index) => (

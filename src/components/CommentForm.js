@@ -15,7 +15,6 @@ const CommentForm = ({ onSubmit, disabled }) => {
   const { user } = useSelector(state => state.user);
 
   const handleSubmit = () => {
-    console.log(user);
     if (disabled) {
       Alert.alert('You must be logged in to comment');
       return;

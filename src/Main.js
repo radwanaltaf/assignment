@@ -15,10 +15,8 @@ const Main = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await AsyncStorage.getItem('user');
-      console.log('userData', user);
       if (userData) {
         dispatch(setUser(JSON.parse(userData)));
-        console.log('user', JSON.parse(userData));
       }
     };
     fetchUser();
