@@ -9,7 +9,7 @@ import { setUser } from './store/actions/userActions';
 
 const Main = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const { user } = useSelector(state => state.user);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,15 +24,15 @@ const Main = () => {
   }, [dispatch]);
 
   const handleLoginSuccess = async userData => {
-    await AsyncStorage.setItem('user', JSON.stringify(userData));
-    dispatch(setUser(userData));
+    await AsyncStorage.setItem('user', JSON.stringify(userData.user));
+    dispatch(setUser(userData.user));
   };
   return (
     <NavigationContainer>
       {/* eslint-disable-next-line react-native/no-inline-styles */}
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar barStyle={'light-content'} backgroundColor={'blue'} />
-        {user.user !== null ? (
+        {user !== null ? (
           <AppNavigator />
         ) : (
           <LoginScreen onLoginSuccess={handleLoginSuccess} />

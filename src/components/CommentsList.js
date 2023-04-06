@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Text from '../styledComponents/CustomText';
-import api from '../utils/axios';
 
-const CommentsList = ({ slug }) => {
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const response = await api.get(`/articles/${slug}/comments`);
-        setComments(response.data.comments);
-        console.log(response.data.comments);
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
-    };
-    fetchComments();
-  }, [slug]);
-
+const CommentsList = ({ commentsList, user, handleDeleteComment }) => {
+  console.log(user);
   return (
     <View style={styles.container}>
-      {comments.map((comment, index) => (
+      {commentsList.map((comment, index) => (
         <View key={index} style={styles.comment}>
-          <Text>{comment.body}</Text>
+          <Image style={styles.avatar} source={{ uri: comment.author.image }} />
+          <View style={styles.commentContent}>
+            <Text style={styles.authorUsername}>{comment.author.username}</Text>
+            <Text style={styles.commentBody}>{comment.body}</Text>
+
+            {user && user.username === comment.author.username && (
+              <TouchableOpacity onPress={() => handleDeleteComment(comment.id)}>
+                <Text style={styles.deleteCommentText}>Delete</Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       ))}
     </View>
@@ -35,11 +30,34 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   comment: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 8,
-    marginBottom: 5,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: '#f1f1f1',
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 10,
+  },
+  commentContent: {
+    flex: 1,
+  },
+  authorUsername: {
+    fontWeight: 'bold',
+  },
+  commentBody: {
+    marginTop: 5,
+    fontSize: 14,
+    color: '#333',
+  },
+  deleteCommentText: {
+    fontSize: 12,
+    color: 'red',
+    marginTop: 8,
   },
 });
 

@@ -12,9 +12,10 @@ import Text from '../styledComponents/CustomText';
 
 const CommentForm = ({ onSubmit, disabled }) => {
   const [body, setBody] = useState('');
-  const user = useSelector(state => state.user);
+  const { user } = useSelector(state => state.user);
 
   const handleSubmit = () => {
+    console.log(user);
     if (disabled) {
       Alert.alert('You must be logged in to comment');
       return;
@@ -27,7 +28,11 @@ const CommentForm = ({ onSubmit, disabled }) => {
     <View style={styles.inputContainer}>
       {user && (
         <Image
-          source={{ uri: 'https://i.imgur.com/9pNffkj.png' }}
+          source={
+            user
+              ? { uri: user.image }
+              : { uri: 'https://i.imgur.com/9pNffkj.png' }
+          }
           style={styles.avatar}
         />
       )}
@@ -63,6 +68,7 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     marginRight: 55,
     marginLeft: 40,
+    marginBottom: 10,
   },
   textInput: {
     flex: 1,

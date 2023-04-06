@@ -13,3 +13,9 @@
 2. I have used a styledComponents folder to store any components where a default
    style is needed such as custom Font globally, alternatively we can also use
    one file to export all styled components in a file called themed.js
+3. An improvement that could be made is making a common file for the Animated
+   box that shows the text Post when comment is Posted, as this Animated text
+   box can also be used to display "Deleted" after a comment is deleted.
+4. I have not implemented the store posts so users can view them offline even if
+   they kill the app due to time constraint. We could use React Native SQLite
+   Storage or WatermelonDB (prefered) to implement this though.

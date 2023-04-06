@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, ScrollView, Image, Animated } from 'react-native';
 import { useSelector } from 'react-redux';
 import {
   fetchPostDetails,
   fetchPostComments,
   deleteComment,
+  postCommentOnPost,
 } from '../api/Posts';
+import CommentForm from '../components/CommentForm';
+import CommentsList from '../components/CommentsList';
 import Text from '../styledComponents/CustomText';
 
 const PostDetailsScreen = ({ route }) => {
@@ -21,9 +18,12 @@ const PostDetailsScreen = ({ route }) => {
   // State for storing post details and comments
   const [postDetails, setPostDetails] = useState(null);
   const [commentsG, setCommentsG] = useState([]);
+  const [showPostMessage, setShowPostMessage] = useState(true);
+  const postMessageAnim = useRef(new Animated.Value(0)).current;
 
   // Fetch post details and comments
   useEffect(() => {
+    console.log('slug', user);
     const fetchDetailsAndComments = async () => {
       const [details, comments] = await Promise.all([
         fetchPostDetails(slug),
@@ -36,15 +36,47 @@ const PostDetailsScreen = ({ route }) => {
     fetchDetailsAndComments();
   }, [slug]);
 
+  const showPostedMessage = () => {
+    setShowPostMessage(true);
+    Animated.timing(postMessageAnim, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => {
+      setTimeout(() => {
+        Animated.timing(postMessageAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start(() => {
+          setShowPostMessage(false);
+        });
+      }, 3400);
+    });
+  };
+
   const handleDeleteComment = async commentId => {
-    await deleteComment(slug, commentId);
+    await deleteComment(slug, commentId, user.token);
     setCommentsG(commentsG.filter(comment => comment.id !== commentId));
+  };
+
+  const submitComment = async body => {
+    console.log('Submitting comment', user.token);
+    const response = await postCommentOnPost(slug, body, user.token);
+    if (response.status === 200) {
+      showPostedMessage();
+      const newComment = response.data.comment;
+      setCommentsG(prevComms => [...prevComms, newComment]);
+      console.log(newComment);
+    } else {
+      console.log('Error submitting comment:', response);
+    }
   };
 
   return (
     <ScrollView>
-      <View style={styles.container}>
-        {postDetails && (
+      {postDetails && (
+        <View style={styles.container}>
           <View>
             <View style={styles.header}>
               <Image
@@ -62,19 +94,42 @@ const PostDetailsScreen = ({ route }) => {
               {postDetails.favoritesCount} favorites
             </Text>
           </View>
-        )}
-        {commentsG.map(comment => (
-          <View key={comment.id} style={styles.commentContainer}>
-            <Text style={styles.commentAuthor}>{comment.author.username}</Text>
-            <Text style={styles.commentBody}>{comment.body}</Text>
-            {user && user.username === comment.author.username && (
-              <TouchableOpacity onPress={() => handleDeleteComment(comment.id)}>
-                <Text style={styles.deleteCommentText}>Delete</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        ))}
-      </View>
+
+          <View style={styles.divider} />
+
+          <CommentForm
+            onSubmit={submitComment}
+            disabled={user ? false : true}
+            slug={slug}
+          />
+
+          <CommentsList
+            user={user}
+            commentsList={commentsG}
+            handleDeleteComment={handleDeleteComment}
+          />
+          {showPostMessage && (
+            <Animated.View
+              style={[
+                styles.postMessageContainer,
+                {
+                  opacity: postMessageAnim,
+                  transform: [
+                    {
+                      translateY: postMessageAnim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [50, 0],
+                      }),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Text style={styles.postMessage}>Posted</Text>
+            </Animated.View>
+          )}
+        </View>
+      )}
     </ScrollView>
   );
 };
@@ -144,11 +199,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
-  deleteCommentText: {
-    fontSize: 12,
-    color: 'red',
-    textDecorationLine: 'underline',
-    marginTop: 8,
+  divider: {
+    height: 1,
+    backgroundColor: '#ccc',
+    marginVertical: 15,
+  },
+  postMessageContainer: {
+    position: 'absolute',
+    bottom: -10,
+    left: 0,
+    right: 0,
+    backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 5,
+  },
+  postMessage: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 

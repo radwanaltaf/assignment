@@ -14,9 +14,6 @@ const HomeFeed = () => {
 
   useEffect(() => {
     dispatch(fetchArticles(page));
-    // console.log('page', page);
-    // console.log('articles.length', articles);
-    // console.log('artcCount', articlesCount);
   }, [dispatch, page]);
 
   const loadMoreArticles = () => {

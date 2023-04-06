@@ -10,6 +10,7 @@ const LoginScreen = ({ onLoginSuccess }) => {
   const handleLogin = async () => {
     try {
       const userData = await Login(email, password);
+      console.log(userData);
       onLoginSuccess(userData);
     } catch (error) {
       console.error(error);
