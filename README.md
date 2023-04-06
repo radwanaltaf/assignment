@@ -1,5 +1,44 @@
 # Assignment - React Native Application
 
+## Screenshots of Finished Product
+
+|                        No Credentials                        |                      With Credentials                      |
+| :----------------------------------------------------------: | :--------------------------------------------------------: |
+| ![LoginDisabled](./src/assets/screenshots/LogInDisabled.png) | ![LoginEnabled](./src/assets/screenshots/LogInEnabled.png) |
+
+---
+
+|                     Home Feed                      |                       Post Details                       |
+| :------------------------------------------------: | :------------------------------------------------------: |
+| ![HomeFeed](./src/assets/screenshots/HomeFeed.png) | ![PostDetails](./src/assets/screenshots/PostDetails.png) |
+
+---
+
+|                          Post Details Comments                           |                              Adding a Comment                              |
+| :----------------------------------------------------------------------: | :------------------------------------------------------------------------: |
+| ![PostDetailsComments](./src/assets/screenshots/PostDetailsComments.png) | ![PostDetailsCommented](./src/assets/screenshots/PostDetailsCommented.png) |
+
+---
+
+## What I built?
+
+A Social Media application with a Home Feed, Post Details page with comments
+section.
+
+## How to run/test the project?
+
+### `npm install`
+
+This will install all dependencies
+
+### `npm run ios`
+
+Runs the app in the development mode on iOS.\
+
+### `npm run android`
+
+Runs the app in the development mode on Android.\
+
 ## Assumptions:
 
 1. The slug is the ID, this is just an assumption which I made based on the
