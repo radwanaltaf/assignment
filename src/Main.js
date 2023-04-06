@@ -1,7 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, SafeAreaView, StatusBar } from 'react-native';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import AppNavigator from './navigation/AppNavigator';
 import LoginScreen from './screens/LoginScreen';
@@ -38,16 +44,22 @@ const Main = () => {
       {/* eslint-disable-next-line react-native/no-inline-styles */}
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar />
-        {isLoading ? (
-          <ActivityIndicator size='large' />
-        ) : user !== null || isGuest ? (
-          <AppNavigator />
-        ) : (
-          <LoginScreen
-            onLoginSuccess={handleLoginSuccess}
-            handleGuestLogin={handleGuestLogin}
-          />
-        )}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? -64 : 0}
+        >
+          {isLoading ? (
+            <ActivityIndicator size='large' />
+          ) : user !== null || isGuest ? (
+            <AppNavigator />
+          ) : (
+            <LoginScreen
+              onLoginSuccess={handleLoginSuccess}
+              handleGuestLogin={handleGuestLogin}
+            />
+          )}
+        </KeyboardAvoidingView>
       </SafeAreaView>
     </NavigationContainer>
   );

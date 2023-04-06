@@ -47,6 +47,20 @@ const HomeFeed = () => {
         onEndReached={loadMoreArticles}
         onEndReachedThreshold={0.5}
         initialNumToRender={20}
+        ListFooterComponent={
+          isLoading ? (
+            <ActivityIndicator
+              size='large'
+              // eslint-disable-next-line react-native/no-inline-styles
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingVertical: 20,
+              }}
+            />
+          ) : null
+        }
       />
     </View>
   );
