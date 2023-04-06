@@ -2,10 +2,24 @@ import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import Text from '../styledComponents/CustomText';
 import { Login } from '../api/Login';
-
-const LoginScreen = ({ onLoginSuccess }) => {
+import { useNavigation } from '@react-navigation/native';
+// dasdasd@gmail.com
+// dsfafsdfsd
+const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
   const [email, setEmail] = useState('dasdasd@gmail.com');
   const [password, setPassword] = useState('dsfafsdfsd');
+  const [emailValid, setEmailValid] = useState(false);
+  const navigation = useNavigation();
+
+  const validateEmail = email_ => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleEmailChange = newEmail => {
+    setEmail(newEmail);
+    setEmailValid(validateEmail(newEmail));
+  };
 
   const handleLogin = async () => {
     try {
@@ -16,13 +30,13 @@ const LoginScreen = ({ onLoginSuccess }) => {
       console.error(error);
     }
   };
-
+  console.log(emailValid);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={styles.input}
-        onChangeText={setEmail}
+        onChangeText={handleEmailChange}
         value={email}
         placeholder='Email'
         keyboardType='email-address'
@@ -35,8 +49,20 @@ const LoginScreen = ({ onLoginSuccess }) => {
         placeholder='Password'
         secureTextEntry
       />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity
+        disabled={emailValid === true && password !== '' ? false : true}
+        style={
+          emailValid === true && password !== ''
+            ? styles.button
+            : [{ opacity: 0.6 }, styles.button]
+        }
+        onPress={handleLogin}
+      >
         <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleGuestLogin}>
+        <Text style={styles.buttonText}>Login as Guest</Text>
       </TouchableOpacity>
     </View>
   );
@@ -68,6 +94,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '80%',
+    marginBottom: 10,
     padding: 15,
     backgroundColor: '#3B82FF',
     borderRadius: 5,

@@ -11,12 +11,31 @@ const AppNavigator = () => {
       <Stack.Screen
         name='HomeFeed'
         component={HomeFeed}
-        options={{ title: 'Home Feed' }}
+        options={{
+          title: 'Home Feed',
+          headerStyle: { backgroundColor: '#3B82FF' },
+          headerTitleStyle: {
+            color: '#fff',
+            fontFamily: 'Iowan Old Style',
+            fontWeight: 'bold',
+          },
+        }}
       />
       <Stack.Screen
         name='PostDetails'
         component={PostDetailsScreen}
-        options={{ title: 'Post Details' }}
+        options={{
+          title: 'Post Details',
+          headerStyle: { backgroundColor: '#3B82FF' },
+          headerTitleStyle: {
+            color: '#fff',
+            fontFamily: 'Iowan Old Style',
+            fontWeight: 'bold',
+          },
+          headerBackTitleStyle: { color: '#fff' },
+          headerBackTitle: 'Back',
+          headerTintColor: '#fff',
+        }}
       />
     </Stack.Navigator>
   );

@@ -42,7 +42,6 @@ const HomeFeed = () => {
 
   return (
     <View>
-      <Text style={{ padding: 10 }}>{articles.length}</Text>
       <FlatList
         data={articles}
         renderItem={renderItem}

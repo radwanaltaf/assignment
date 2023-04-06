@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import AppNavigator from './navigation/AppNavigator';
@@ -10,6 +10,7 @@ import { setUser } from './store/actions/userActions';
 const Main = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.user);
+  const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -27,15 +28,23 @@ const Main = () => {
     await AsyncStorage.setItem('user', JSON.stringify(userData.user));
     dispatch(setUser(userData.user));
   };
+
+  const handleGuestLogin = async () => {
+    setIsGuest(true);
+  };
+
   return (
     <NavigationContainer>
       {/* eslint-disable-next-line react-native/no-inline-styles */}
       <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar barStyle={'light-content'} backgroundColor={'blue'} />
-        {user !== null ? (
+        <StatusBar />
+        {user !== null || isGuest ? (
           <AppNavigator />
         ) : (
-          <LoginScreen onLoginSuccess={handleLoginSuccess} />
+          <LoginScreen
+            onLoginSuccess={handleLoginSuccess}
+            handleGuestLogin={handleGuestLogin}
+          />
         )}
       </SafeAreaView>
     </NavigationContainer>

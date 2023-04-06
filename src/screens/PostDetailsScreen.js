@@ -99,7 +99,7 @@ const PostDetailsScreen = ({ route }) => {
 
           <CommentForm
             onSubmit={submitComment}
-            disabled={user ? false : true}
+            disabled={user !== null ? false : true}
             slug={slug}
           />
 

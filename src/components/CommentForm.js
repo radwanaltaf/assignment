@@ -26,21 +26,20 @@ const CommentForm = ({ onSubmit, disabled }) => {
 
   return (
     <View style={styles.inputContainer}>
-      {user && (
-        <Image
-          source={
-            user
-              ? { uri: user.image }
-              : { uri: 'https://i.imgur.com/9pNffkj.png' }
-          }
-          style={styles.avatar}
-        />
-      )}
+      <Image
+        source={
+          user !== null
+            ? { uri: user.image }
+            : { uri: 'https://i.imgur.com/9pNffkj.png' }
+        }
+        style={styles.avatar}
+      />
+
       <TextInput
         style={styles.textInput}
         onChangeText={setBody}
         value={body}
-        editable={!disabled}
+        // editable={!disabled}
         placeholder='Comment on this...'
         placeholderTextColor={disabled ? '#ccc' : '#999'}
       />
@@ -49,7 +48,13 @@ const CommentForm = ({ onSubmit, disabled }) => {
         disabled={body === '' ? true : false}
         style={styles.submitButton}
       >
-        <View style={styles.postButtonContainer}>
+        <View
+          style={
+            body === ''
+              ? [{ opacity: 0.6 }, styles.postButtonContainer]
+              : styles.postButtonContainer
+          }
+        >
           <Text style={styles.postButtonText}>Post</Text>
         </View>
       </TouchableOpacity>
