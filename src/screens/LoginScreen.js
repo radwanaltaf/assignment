@@ -12,8 +12,8 @@ import { Login } from '../api/Login';
 // dasdasd@gmail.com
 // dsfafsdfsd
 const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
-  const [email, setEmail] = useState('dasdasd@gmail.com');
-  const [password, setPassword] = useState('dsfafsdfsd');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [emailValid, setEmailValid] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
