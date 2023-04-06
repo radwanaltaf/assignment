@@ -11,7 +11,7 @@ export const Login = async (email, password) => {
     });
     return response.data;
   } catch (error) {
+    console.log('Error logging in:', error);
     Alert.alert('Error', `Invalid email or password. ${error}`);
-    // throw error;
   }
 };

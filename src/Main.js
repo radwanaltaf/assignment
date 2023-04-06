@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StatusBar } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import AppNavigator from './navigation/AppNavigator';
 import LoginScreen from './screens/LoginScreen';
@@ -11,6 +11,7 @@ const Main = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.user);
   const [isGuest, setIsGuest] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -18,6 +19,7 @@ const Main = () => {
       if (userData) {
         dispatch(setUser(JSON.parse(userData)));
       }
+      setIsLoading(false);
     };
     fetchUser();
   }, [dispatch]);
@@ -36,7 +38,9 @@ const Main = () => {
       {/* eslint-disable-next-line react-native/no-inline-styles */}
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar />
-        {user !== null || isGuest ? (
+        {isLoading ? (
+          <ActivityIndicator size='large' />
+        ) : user !== null || isGuest ? (
           <AppNavigator />
         ) : (
           <LoginScreen

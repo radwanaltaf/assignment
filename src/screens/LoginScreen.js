@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import Text from '../styledComponents/CustomText';
 import { Login } from '../api/Login';
 
 // dasdasd@gmail.com
 // dsfafsdfsd
 const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('dasdasd@gmail.com');
+  const [password, setPassword] = useState('dsfafsdfsd');
   const [emailValid, setEmailValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = email_ => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,12 +28,10 @@ const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
   };
 
   const handleLogin = async () => {
-    try {
-      const userData = await Login(email, password);
-      onLoginSuccess(userData);
-    } catch (error) {
-      console.error(error);
-    }
+    setIsLoading(true);
+    const userData = await Login(email, password);
+    setIsLoading(false);
+    onLoginSuccess(userData);
   };
 
   return (
@@ -40,6 +45,7 @@ const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
         keyboardType='email-address'
         autoCapitalize='none'
       />
+
       <TextInput
         style={styles.input}
         onChangeText={setPassword}
@@ -47,6 +53,7 @@ const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
         placeholder='Password'
         secureTextEntry
       />
+
       <TouchableOpacity
         disabled={emailValid === true && password !== '' ? false : true}
         style={
@@ -56,7 +63,11 @@ const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
         }
         onPress={handleLogin}
       >
-        <Text style={styles.buttonText}>Login</Text>
+        {isLoading ? (
+          <ActivityIndicator size='small' color='#fff' />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={handleGuestLogin}>
