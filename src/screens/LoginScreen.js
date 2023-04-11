@@ -39,6 +39,7 @@ const LoginScreen = ({ onLoginSuccess, handleGuestLogin }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      // eslint-disable-next-line react-native/no-inline-styles
       style={{ flex: 1 }}
       keyboardVerticalOffset={Platform.OS === 'ios' ? -190 : 0}
     >
